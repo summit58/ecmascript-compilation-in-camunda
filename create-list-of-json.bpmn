@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1tgluri" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.1.0">
+  <bpmn:process id="create-list-of-json" name="Create List of JSON" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="List of JSON Required">
+      <bpmn:outgoing>SequenceFlow_0o3b58a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0o3b58a" sourceRef="StartEvent_1" targetRef="Task_0gxiaix" />
+    <bpmn:endEvent id="EndEvent_13l90dh" name="List of JSON Created">
+      <bpmn:incoming>SequenceFlow_0ijecx0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0ijecx0" sourceRef="Task_0gxiaix" targetRef="EndEvent_13l90dh" />
+    <bpmn:scriptTask id="Task_0gxiaix" name="Create List of JSON" camunda:asyncBefore="true" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_0o3b58a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ijecx0</bpmn:outgoing>
+      <bpmn:script>print('Business key:' + execution.getBusinessKey());
+var ArrayList = Java.type('java.util.ArrayList');
+var jsonList = new ArrayList;
+
+var jsonOne = {};
+jsonOne.test = 'value1';
+jsonList.add(JSON.stringify(jsonOne));
+
+var jsonTwo = {};
+jsonTwo.test = 'value2';
+jsonList.add(JSON.stringify(jsonTwo));
+
+var jsonThree = {};
+jsonThree.test = 'value3';
+jsonList.add(JSON.stringify(jsonThree));
+
+execution.setVariable("jsonList", jsonList);</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="create-list-of-json">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="146" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o3b58a_di" bpmnElement="SequenceFlow_0o3b58a">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="272" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_13l90dh_di" bpmnElement="EndEvent_13l90dh">
+        <dc:Bounds x="434" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="146" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ijecx0_di" bpmnElement="SequenceFlow_0ijecx0">
+        <di:waypoint x="372" y="121" />
+        <di:waypoint x="434" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_1v4c07n_di" bpmnElement="Task_0gxiaix">
+        <dc:Bounds x="272" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
