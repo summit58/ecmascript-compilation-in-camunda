@@ -1,6 +1,13 @@
 **Testing Compilation of JavaScript in Camunda BPM 7.11.0**
 
-*NOTE*: This feature has been requested via a [pull request](https://github.com/camunda/camunda-bpm-platform/pull/360). The Camunda team has also created a [Feature Request](https://app.camunda.com/jira/browse/CAM-10506) in the Camunda CAM project.
+*NOTE*: This feature had been requested via a [pull request](https://github.com/camunda/camunda-bpm-platform/pull/360), which was accepted. The Camunda team had also created a [Feature Request](https://app.camunda.com/jira/browse/CAM-10506) in the Camunda CAM project. Subsequently, the Camunda team elected not to include this feature, as it impacted the ability to reference Camunda Spin from within Nashorn (JavaScript) using simply `S` for reference. Note that it is still possible to utilize Spin in JavaScript with JavaScript compilation turned on; it just can't be referenced via the `S` moniker. Here's an example:
+
+```
+var Spin = Java.type('org.camunda.spin.Spin');
+var test = Spin.JSON(response).prop('test').value();
+```
+
+It is our opinion that the performance gains associated with JavaScript/ECMAScript compilation are significant enough to justify the use of the above code where Spin needs to be referenced within Nashorn scripts. Camunda Services GmbH believes differently.
 
 *Making the Change in the Engine*
 
@@ -11,9 +18,9 @@ As a first step, you'll need to make the change to the `org.camunda.bpm.engine.i
 
 *Testing the Change*
 
-To get useful results, the change must be tested using a full Camunda BPM environment with the Job Executor running. For example, you could use the standard Tomcat distribution, or you could start Camunda BPM via Spring Boot. If you do the latter, you could use a Spring Boot test to generate your simulated results. 
+To get useful results, the change must be tested using a full Camunda BPM environment with the Job Executor running. For example, you could use the standard Tomcat distribution, or you could start Camunda BPM via Spring Boot. If you do the latter, you could use a Spring Boot test to generate your simulated results.
 
-This repository includes two files: 
+This repository includes two files:
 
 1. The process definition that was used for our tests, entitled "create-list-of-json.bpmn".
 2. The source for the modified `org.camunda.bpm.engine.impl.scripting.SourceExecutableScript` class.
